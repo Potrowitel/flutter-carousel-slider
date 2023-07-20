@@ -16,9 +16,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({super.key, this.title});
 
-  final String title;
+  final String? title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
     padding: EdgeInsets.only(bottom: 32),
   );
   bool _isPlaying = true;
-  CarouselSliderController _sliderController;
+  CarouselSliderController? _sliderController;
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.title,
+          widget.title??'',
         ),
         actions: [
           IconButton(
@@ -82,20 +82,40 @@ class _MyHomePageState extends State<MyHomePage> {
                         return Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            _getTransformRadio(Transforms.CubeTransform, _transform, setState),
-                            _getTransformRadio(Transforms.ZoomOutSlideTransform, _transform, setState),
-                            _getTransformRadio(Transforms.RotateUpTransform, _transform, setState),
-                            _getTransformRadio(Transforms.RotateDownTransform, _transform, setState),
-                            _getTransformRadio(Transforms.TabletTransform, _transform, setState),
-                            _getTransformRadio(Transforms.StackTransform, _transform, setState),
-                            _getTransformRadio(Transforms.ParallaxTransform, _transform, setState),
-                            _getTransformRadio(Transforms.ForegroundToBackgroundTransform, _transform, setState),
-                            _getTransformRadio(Transforms.FlipVerticalTransform, _transform, setState),
-                            _getTransformRadio(Transforms.DepthTransform, _transform, setState),
-                            _getTransformRadio(Transforms.BackgroundToForegroundTransform, _transform, setState),
-                            _getTransformRadio(Transforms.AccordionTransform, _transform, setState),
-                            _getTransformRadio(Transforms.DefaultTransform, _transform, setState),
-                            _getTransformRadio(Transforms.FlipHorizontalTransform, _transform, setState),
+                            _getTransformRadio(
+                                Transforms.CubeTransform, _transform, setState),
+                            _getTransformRadio(Transforms.ZoomOutSlideTransform,
+                                _transform, setState),
+                            _getTransformRadio(Transforms.RotateUpTransform,
+                                _transform, setState),
+                            _getTransformRadio(Transforms.RotateDownTransform,
+                                _transform, setState),
+                            _getTransformRadio(Transforms.TabletTransform,
+                                _transform, setState),
+                            _getTransformRadio(Transforms.StackTransform,
+                                _transform, setState),
+                            _getTransformRadio(Transforms.ParallaxTransform,
+                                _transform, setState),
+                            _getTransformRadio(
+                                Transforms.ForegroundToBackgroundTransform,
+                                _transform,
+                                setState),
+                            _getTransformRadio(Transforms.FlipVerticalTransform,
+                                _transform, setState),
+                            _getTransformRadio(Transforms.DepthTransform,
+                                _transform, setState),
+                            _getTransformRadio(
+                                Transforms.BackgroundToForegroundTransform,
+                                _transform,
+                                setState),
+                            _getTransformRadio(Transforms.AccordionTransform,
+                                _transform, setState),
+                            _getTransformRadio(Transforms.DefaultTransform,
+                                _transform, setState),
+                            _getTransformRadio(
+                                Transforms.FlipHorizontalTransform,
+                                _transform,
+                                setState),
                           ],
                         );
                       },
@@ -119,10 +139,22 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context, setState) {
                         return Column(
                           children: <Widget>[
-                            _getIndicatorRadio(Indicators.CircularSlideIndicator, _indicator, setState),
-                            _getIndicatorRadio(Indicators.CircularWaveSlideIndicator, _indicator, setState),
-                            _getIndicatorRadio(Indicators.CircularStaticIndicator, _indicator, setState),
-                            _getIndicatorRadio(Indicators.SequentialFillIndicator, _indicator, setState),
+                            _getIndicatorRadio(
+                                Indicators.CircularSlideIndicator,
+                                _indicator,
+                                setState),
+                            _getIndicatorRadio(
+                                Indicators.CircularWaveSlideIndicator,
+                                _indicator,
+                                setState),
+                            _getIndicatorRadio(
+                                Indicators.CircularStaticIndicator,
+                                _indicator,
+                                setState),
+                            _getIndicatorRadio(
+                                Indicators.SequentialFillIndicator,
+                                _indicator,
+                                setState),
                           ],
                         );
                       },
@@ -183,19 +215,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     iconSize: 48,
                     icon: Icon(Icons.skip_previous),
                     onPressed: () {
-                      _sliderController.previousPage();
+                      _sliderController?.previousPage();
                     },
                   ),
                   IconButton(
                     iconSize: 64,
                     icon: Icon(
-                      _isPlaying ? Icons.pause_circle_outline : Icons.play_circle_outline,
+                      _isPlaying
+                          ? Icons.pause_circle_outline
+                          : Icons.play_circle_outline,
                     ),
                     onPressed: () {
                       setState(
                         () {
                           _isPlaying = !_isPlaying;
-                          _sliderController.setAutoSliderEnabled(_isPlaying);
+                          _sliderController?.setAutoSliderEnabled(_isPlaying);
                         },
                       );
                     },
@@ -204,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     iconSize: 48,
                     icon: Icon(Icons.skip_next),
                     onPressed: () {
-                      _sliderController.nextPage();
+                      _sliderController?.nextPage();
                     },
                   ),
                 ],

@@ -16,9 +16,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  final String title;
+  final String? title;
 
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({super.key, this.title}) ;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool _isPlaying = true;
 
-  CarouselSliderController _sliderController;
+  CarouselSliderController? _sliderController;
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title??''),
       ),
       body: ListView(
         children: <Widget>[
@@ -99,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       iconSize: 48,
                       icon: Icon(Icons.skip_previous),
                       onPressed: () {
-                        _sliderController.previousPage();
+                        _sliderController?.previousPage();
                       },
                     ),
                     IconButton(
@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         setState(
                           () {
                             _isPlaying = !_isPlaying;
-                            _sliderController.setAutoSliderEnabled(_isPlaying);
+                            _sliderController?.setAutoSliderEnabled(_isPlaying);
                           },
                         );
                       },
@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       iconSize: 48,
                       icon: Icon(Icons.skip_next),
                       onPressed: () {
-                        _sliderController.nextPage();
+                        _sliderController?.nextPage();
                       },
                     ),
                   ],

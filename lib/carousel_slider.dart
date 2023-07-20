@@ -170,7 +170,10 @@ class _CarouselSliderState extends State<CarouselSlider> {
           ),
         if (widget.slideIndicator != null && widget.itemCount > 0)
           widget.slideIndicator!.build(
-              _currentPage! % widget.itemCount, _pageDelta, widget.itemCount),
+              _currentPage! % widget.itemCount,
+              _pageDelta,
+              widget.itemCount,
+              _pageController?.position.userScrollDirection),
       ],
     );
   }
