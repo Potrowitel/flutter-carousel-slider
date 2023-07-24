@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import 'carousel_slider_indicators.dart';
 import 'carousel_slider_transforms.dart';
@@ -125,11 +126,16 @@ class _CarouselSliderState extends State<CarouselSlider> {
   PageController? _pageController;
   Timer? _timer;
   int? _currentPage;
+  double? _page;
   double _pageDelta = 0;
   late bool _isPlaying;
 
   @override
   Widget build(BuildContext context) {
+    ScrollDirection? scrollDirection;
+    if (_pageController?.hasClients == true) {
+      scrollDirection = _pageController?.position.userScrollDirection;
+    }
     return Stack(
       children: <Widget>[
         if (widget.itemCount > 0)
@@ -169,11 +175,8 @@ class _CarouselSliderState extends State<CarouselSlider> {
             ),
           ),
         if (widget.slideIndicator != null && widget.itemCount > 0)
-          widget.slideIndicator!.build(
-              _currentPage! % widget.itemCount,
-              _pageDelta,
-              widget.itemCount,
-              _pageController?.position.userScrollDirection),
+          widget.slideIndicator!.build(_currentPage! % widget.itemCount, _page!,
+              _pageDelta, widget.itemCount, scrollDirection),
       ],
     );
   }
@@ -202,6 +205,7 @@ class _CarouselSliderState extends State<CarouselSlider> {
     super.initState();
     _isPlaying = widget.enableAutoSlider;
     _currentPage = widget.initialPage;
+    _page = widget.initialPage.toDouble();
     _initCarouselSliderController();
     _initPageController();
     _setAutoSliderEnabled(_isPlaying);
@@ -224,6 +228,7 @@ class _CarouselSliderState extends State<CarouselSlider> {
     );
     _pageController!.addListener(() {
       setState(() {
+        _page = _pageController!.page!;
         _currentPage = _pageController!.page!.floor();
         _pageDelta = _pageController!.page! - _pageController!.page!.floor();
       });

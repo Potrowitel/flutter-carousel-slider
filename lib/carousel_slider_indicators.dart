@@ -23,7 +23,7 @@ class CircularSlideIndicator implements SlideIndicator {
   });
 
   @override
-  Widget build(int currentPage, double pageDelta, int itemCount,
+  Widget build(int currentPage, double page, double pageDelta, int itemCount,
       ScrollDirection? direction) {
     return Container(
       alignment: alignment,
@@ -156,7 +156,7 @@ class CircularWaveSlideIndicator implements SlideIndicator {
   });
 
   @override
-  Widget build(int currentPage, double pageDelta, int itemCount,
+  Widget build(int currentPage, double page, double pageDelta, int itemCount,
       ScrollDirection? direction) {
     return Container(
       alignment: alignment,
@@ -288,7 +288,7 @@ class CircularStaticIndicator extends SlideIndicator {
   });
 
   @override
-  Widget build(int currentPage, double pageDelta, int itemCount,
+  Widget build(int currentPage, double page, double pageDelta, int itemCount,
       ScrollDirection? direction) {
     return Container(
       alignment: alignment,
@@ -415,7 +415,7 @@ class SequentialFillIndicator extends SlideIndicator {
   });
 
   @override
-  Widget build(int currentPage, double pageDelta, int itemCount,
+  Widget build(int currentPage, double page, double pageDelta, int itemCount,
       ScrollDirection? direction) {
     return Container(
       alignment: alignment,
@@ -554,7 +554,7 @@ class AttachedCircularSlideIndicator implements SlideIndicator {
   });
 
   @override
-  Widget build(int currentPage, double pageDelta, int itemCount,
+  Widget build(int currentPage, double page, double pageDelta, int itemCount,
       ScrollDirection? direction) {
     return Container(
       alignment: alignment,
@@ -563,10 +563,11 @@ class AttachedCircularSlideIndicator implements SlideIndicator {
         width: itemCount * itemSpacing,
         height: indicatorRadius * 2,
         child: CustomPaint(
-          painter: CircularIndicatorPainter(
+          painter: AttachedCircularIndicatorPainter(
             currentIndicatorColor: currentIndicatorColor,
             indicatorBackgroundColor: indicatorBackgroundColor,
             currentPage: currentPage,
+            page: page,
             pageDelta: pageDelta,
             itemCount: itemCount,
             radius: indicatorRadius,
@@ -588,16 +589,20 @@ class AttachedCircularIndicatorPainter extends CustomPainter {
   final double pageDelta;
   final Paint borderIndicatorPaint = Paint();
   final Color? indicatorBorderColor;
+  final ScrollDirection? direction;
+  final double page;
 
   AttachedCircularIndicatorPainter({
     required this.currentPage,
     required this.pageDelta,
     required this.itemCount,
+    required this.page,
     this.radius = 12,
     double borderWidth = 2,
     required Color currentIndicatorColor,
     required Color indicatorBackgroundColor,
     this.indicatorBorderColor,
+    this.direction,
   }) {
     indicatorPaint.color = indicatorBackgroundColor;
     indicatorPaint.style = PaintingStyle.fill;
@@ -622,12 +627,13 @@ class AttachedCircularIndicatorPainter extends CustomPainter {
     final y = size.height / 2;
     double x = radius;
 
-    print(pageDelta);
+    // print(pageDelta.toString());
+
     for (int i = 0; i < itemCount; i++) {
       if (i == currentPage) {
         Path path = Path();
         path.addRRect(RRect.fromRectAndRadius(
-          Rect.fromLTRB(x, 0, x + 20 + (pageDelta * 8), 8),
+          Rect.fromLTRB(x + (pageDelta * 8), 0, x + 18 + (pageDelta * 8), 8),
           Radius.circular(radius),
         ));
         canvas.drawPath(path, indicatorPaint);
@@ -682,6 +688,6 @@ class AttachedCircularIndicatorPainter extends CustomPainter {
 }
 
 abstract class SlideIndicator {
-  Widget build(int currentPage, double pageDelta, int itemCount,
+  Widget build(int currentPage, double page, double pageDelta, int itemCount,
       ScrollDirection? direction);
 }
